@@ -1,0 +1,50 @@
+{
+    "openrpc": "1.0.0",
+    "info": {
+        "title": "Пользовательский API",
+        "version": "1.0.0"
+    },
+    "methods": [
+        {
+            "name": "getUserById",
+            "summary": "Возвращает информацию о пользователю по его id",
+            "params": [
+                {
+                    "name": "userId",
+                    "schema": {
+                        "type": "integer",
+                        "description": "Уникальный идентификатор пользователя"
+                    },
+                    "required": true
+                }
+            ],
+            "result":{
+                "name": "userInfo",
+                "schema": {
+                    "type":"object",
+                    "properties": {
+                        "id": { "type":"integer", "description": "Идентификатор пользователя"},
+                        "name": { "type":"string", "description": "Имя пользователя"},
+                        "email": { "type":"string", "description": "Email пользователя"}
+                    },
+                    "required": ["id", "name", "email"]
+                }
+            },
+            "errors":[
+                {
+                    "code": 404,
+                    "message": "Пользователь не найден",
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "userId": {
+                                "type": "integer",
+                                "description": "Идентификатор пользователя, по которому не удалось найти пользователя"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
