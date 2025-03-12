@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://www.example.com/taskmanagement"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  targetNamespace="http://www.example.com/taskmanagement">
+
+  <!-- Type Definitions -->
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.com/taskmanagement">
+      <xsd:element name="Task">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="TaskID" type="xsd:string"/>
+            <xsd:element name="Title" type="xsd:string"/>
+            <xsd:element name="Description" type="xsd:string"/>
+            <xsd:element name="Status" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+
+  <!-- Message Definitions -->
+  <wsdl:message name="CreateTaskRequest">
+    <wsdl:part name="task" element="tns:Task"/>
+  </wsdl:message>
+  <wsdl:message name="TaskResponse">
+    <wsdl:part name="task" element="tns:Task"/>
+  </wsdl:message>
+  <wsdl:message name="GetTaskRequest">
+    <wsdl:part name="TaskID" type="xsd:string"/>
+  </wsdl:message>
+  <wsdl:message name="UpdateTaskRequest">
+    <wsdl:part name="task" element="tns:Task"/>
+  </wsdl:message>
+  <wsdl:message name="DeleteTaskRequest">
+    <wsdl:part name="TaskID" type="xsd:string"/>
+  </wsdl:message>
+
+  <!-- Port Type Definitions -->
+  <wsdl:portType name="TaskManagementPortType">
+    <wsdl:operation name="CreateTask">
+      <wsdl:input message="tns:CreateTaskRequest"/>
+      <wsdl:output message="tns:TaskResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetTask">
+    <wsdl:input message="tns:GetTaskRequest"/>
+    <wsdl:output message="tns:TaskResponse"/>
+    <wsdl:fault name="NotFoundError" message="tns:NotFoundError"/>
+  </wsdl:operation>
+    <wsdl:operation name="UpdateTask">
+      <wsdl:input message="tns:UpdateTaskRequest"/>
+      <wsdl:output message="tns:TaskResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <wsdl:input message="tns:DeleteTaskRequest"/>
+      <wsdl:output message="tns:TaskResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <!-- Binding Definitions -->
+  <wsdl:binding name="TaskManagementBinding" type="tns:TaskManagementPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CreateTask">
+      <soap:operation soapAction="http://www.example.com/taskmanagement/CreateTask"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTask">
+      <soap:operation soapAction="http://www.example.com/taskmanagement/GetTask"/>
+    <wsdl:input>
+      <soap:body use="literal"/>
+    </wsdl:input>
+    <wsdl:output>
+      <soap:body use="literal"/>
+    </wsdl:output>
+    <wsdl:fault name="NotFoundError">
+      <soap:fault name="NotFoundError" use="literal"/>
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTask">
+      <soap:operation soapAction="http://www.example.com/taskmanagement/UpdateTask"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <soap:operation soapAction="http://www.example.com/taskmanagement/DeleteTask"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <!-- Service Definitions -->
+  <wsdl:service name="TaskManagementService">
+    <wsdl:port name="TaskManagementPort" binding="tns:TaskManagementBinding">
+      <soap:address location="http://www.example.com/taskmanagement"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>
