@@ -134,3 +134,10 @@ my api-docs
 </li>
 </ol>
 </details>
+
+<details>
+  <summary>GRAPHQL</summary>
+<p>playground -&nbsp;https://graphql.org/learn/queries/</p>
+<p>Пример:</p>
+<p>type Student {<br />id: ID!<br />name: String!<br />surname: String!<br />age: Int!<br />courseList: [Course!]!<br /><br />}<br />type Course {<br />id: ID!<br />name: String!<br />description: String!<br />cost: Int!<br />registrateStudentsCount: Int!<br />}<br />type Query {<br />students(offset: Int, limit: Int): [Student!]<br />courses(costFilter: Int!): [Course!]<br />courseById(id: ID!): Course<br />studentById(id: ID!): Student<br />}<br />type Mutation {<br />addStudent(name: String!, surname: String!, age: Int!): Student!<br />updateStudent(name: String!, surname: String!, age: Int!): Student!<br />deleteStudent(id: ID!): Boolean!<br />addCourse(name: String!, description: String!, cost: Int!): Course!<br />updateCourse(name: String!, description: String!, cost: Int!): Course!<br />deleteCourse(id: ID!): Boolean!<br />registrateStudent(studentId: ID!, courseId: ID!): Student!<br />unregistrateStudent(studentId: ID!, courseId: ID!): Student!<br />}</p>
+</details>
