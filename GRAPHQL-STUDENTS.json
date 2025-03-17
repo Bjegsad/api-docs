@@ -1,0 +1,31 @@
+type Student {
+  id: ID!
+  name: String!
+  surname: String!
+  age: Int!
+  courseList: [Course!]!
+  
+}
+type Course {
+  id: ID!
+  name: String!
+  description: String!
+  cost: Int!
+  registrateStudentsCount: Int!
+}
+type Query {
+  students(offset: Int, limit: Int): [Student!]
+  courses(costFilter: Int!): [Course!]
+  courseById(id: ID!): Course
+  studentById(id: ID!): Student
+}
+type Mutation {
+  addStudent(name: String!, surname: String!, age: Int!): Student!
+  updateStudent(name: String!, surname: String!, age: Int!): Student!
+  deleteStudent(id: ID!): Boolean!
+  addCourse(name: String!, description: String!, cost: Int!): Course!
+  updateCourse(name: String!, description: String!, cost: Int!): Course!
+  deleteCourse(id: ID!): Boolean!
+  registrateStudent(studentId: ID!, courseId: ID!): Student!
+  unregistrateStudent(studentId: ID!, courseId: ID!): Student!
+}
