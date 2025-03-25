@@ -1,0 +1,93 @@
+syntax = “proto3”;
+
+//Сущность продуктов
+message Product {
+	int ID = 1;
+	string name = 2;
+	string description = 3;
+	double price = 4;
+	int32 count = 5;
+	repeated int CategoryListIds = 6;
+}
+
+//Сущность категория
+message Category {
+	int ID = 1;
+	string name = 2;
+	string productsList = 3;
+}
+
+//Модель запроса Product
+message ProductRequest {
+	Product product = 1;
+}
+
+//Модель ответа Product
+message ProductResponse {
+	string message = 1;
+	Product product = 2;
+}
+
+//Модель запроса Category
+message CategoryRequest {
+	Category category = 1;
+}
+
+//Модель ответа Product
+message CategoryResponse {
+	string message = 1;
+	Category category = 2;
+}
+
+//Модель отвязки продукта от категории
+message ProductToCategory {
+	int ProductId = 1;
+	int CategoryId = 2;
+}
+
+//Список продуктов
+message ProductList {
+	repeated Product product = 1;
+}
+
+//Список категорий
+message CategoryList {
+	repeated Category category = 1;
+}
+
+//Продукт по ID 
+message ProductId {
+	int productId = 1;
+}
+
+//Категория по ID 
+message CategoryId {
+	int categoryId = 1;
+}
+
+//Параметры для списка продуктов
+message sortParameters {
+	double priceFilter = 1;
+	int pageNumber = 2;
+	int pageSize = 3;
+}
+
+// Сервис
+service ProductStore {
+	rpc AddProduct(ProductRequest) returns (ProductResponse);
+	rpc EditProduct(ProductRequest) returns (ProductResponse);
+	rpc DeleteProduct(ProductRequest) returns (ProductResponse);
+	
+	rpc AddProduct(CategoryRequest) returns (CategoryResponse);
+	rpc EditProduct(CategoryRequest) returns (CategoryResponse);
+	rpc DeleteProduct(CategoryRequest) returns (CategoryResponse);
+	
+	rpc UntieProductToCategory(ProductToCategory) returns (ProductResponse);
+	rpc TieProductToCategory(ProductToCategory) returns(ProductResponse)
+	
+	rpc GetProductList(sortParameters) returns (ProductList);
+	rpc GetCategoryList() returns (CategoryList);
+	
+	rpc GetProductById(ProductId) returns (CategoryResponse);
+	rpc GetCategoryById(CategoryId) returns (CategoryResponse);
+}
