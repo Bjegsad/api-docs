@@ -164,3 +164,10 @@ my api-docs
 <p>&nbsp;</p>
 <p>&bull; string &mdash; name, description, tags, id<br /> &bull; uint32 &mdash; price (цена в центах)<br /> &bull; bool &mdash; in_stock (наличие товара)<br /> &bull; enum &mdash; category (категория товара)<br /> &bull; repeated &mdash; tags (список тегов)<br /> &bull; google.protobuf.Timestamp &mdash; created_at (дата создания)<br /> &bull; optional &mdash; UpdateProductRequest, чтобы сделать поля необязательными</p>
 </details>
+
+
+<details>
+  <summary>REST</summary>
+  ![image](https://github.com/user-attachments/assets/da29e760-66d1-479c-94d3-f9f127e13feb)
+
+</details>
