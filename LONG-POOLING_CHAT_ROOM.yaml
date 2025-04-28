@@ -1,0 +1,197 @@
+openapi: 3.0.4
+info:
+  title: Chat Room Long Polling API
+  version: 1.0.12
+paths:
+  /rooms:
+    post:
+      tags:
+        - Room
+      summary: Create a new chat room
+      description: Create a new chat room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+      responses:
+        '200':
+          description: Room created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+        '400':
+          description: Bad Request
+        '500':
+          description: Server is unavailable
+  /room/{roomId}/add:
+    post:
+      tags:
+        - Room
+      summary: Add a new participant to the chat room
+      description: Add a new participant to the chat room
+      parameters:
+        - in: path
+          name: roomId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: id участника
+                  example: 1
+      responses:
+        '200':
+          description: Room created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+        '400':
+          description: Bad Request
+        '404':
+          description: Room is not found
+        '500':
+          description: Server is unavailable
+  /room/{roomId}/delete:
+    post:
+      tags:
+        - Room
+      summary: Delete a participant from the chat room
+      description: Delete a participant from the chat room
+      parameters:
+        - in: path
+          name: roomId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: id участника
+                  example: 1
+      responses:
+        '200':
+          description: Room created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+        '400':
+          description: Bad Request
+        '404':
+          description: Room is not found
+        '500':
+          description: Server is unavailable
+  /room/{roomId}/message:
+    post:
+      tags:
+        - Room
+      summary: Create a new message in the chat room
+      description: Create a new message in the chat room
+      parameters:
+        - in: path
+          name: roomId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '200':
+          description: Room created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '400':
+          description: Bad Request
+        '404':
+          description: Room is not found
+        '500':
+          description: Server is unavailable
+  /rooms/{roomId}/poll
+    get:
+      summary: "Получить сообщения (Long Polling)"
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: timing
+          in: query
+          description: "Фильтр по времени"
+          schema:
+            type: string
+            format: datetime
+      responses:
+        '200':
+          description: "Новые сообщения"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+        '204':
+          description: "Нет новых сообщений"
+components:
+  schemas:
+    ChatRoom:
+      type: object
+      description: Чат-комната
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+          readOnly: true
+        name:
+          type: integer
+          format: int64
+          example: 198772
+        participantList:
+          type: array
+          items:
+            type: string
+            example: Petrov
+    Message:
+      type: object
+      description: Сообщение
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 11
+          readOnly: true
+        text:
+          type: string
+          example: Hi
+        author:
+          type: string
+          example: Petrov
+        sendingDate: 
+          type: string
+          format: datetime
+          example: 2022-12-31T01:52:25Z
+          readOnly: true
