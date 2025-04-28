@@ -171,3 +171,297 @@ my api-docs
   ![image](https://github.com/user-attachments/assets/da29e760-66d1-479c-94d3-f9f127e13feb)
 
 </details>
+
+<details>
+  <summary>CALLBACK, POOLING, LONG POOLING, WEBHOOKS</summary>
+  <h2><strong>1. Callback (Асинхронный ответ через Webhook)</strong></h2>
+<h3><strong>Описание</strong></h3>
+<p class="ds-markdown-paragraph">Сервер принимает запрос, выполняет долгую операцию и уведомляет клиента через&nbsp;<strong>callback URL</strong>.</p>
+<h3><strong>Пример в OpenAPI/Swagger (YAML)</strong></h3>
+<div class="md-code-block md-code-block-dark">
+<div class="md-code-block-banner-wrap">
+<div class="md-code-block-banner md-code-block-banner-lite">
+<div class="_121d384">
+<div class="d2a24f03"><span class="d813de27">yaml</span></div>
+<div class="d2a24f03">
+<div class="efa13877">
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--m _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Copy</div>
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--s _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Download</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<pre><span class="token key atrule">paths</span><span class="token punctuation">:</span>
+  <span class="token key atrule">/api/start-process</span><span class="token punctuation">:</span>
+    <span class="token key atrule">post</span><span class="token punctuation">:</span>
+      <span class="token key atrule">summary</span><span class="token punctuation">:</span> Запуск асинхронной задачи
+      <span class="token key atrule">requestBody</span><span class="token punctuation">:</span>
+        <span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+        <span class="token key atrule">content</span><span class="token punctuation">:</span>
+          <span class="token key atrule">application/json</span><span class="token punctuation">:</span>
+            <span class="token key atrule">schema</span><span class="token punctuation">:</span>
+              <span class="token key atrule">type</span><span class="token punctuation">:</span> object
+              <span class="token key atrule">properties</span><span class="token punctuation">:</span>
+                <span class="token key atrule">callbackUrl</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">type</span><span class="token punctuation">:</span> string
+                  <span class="token key atrule">format</span><span class="token punctuation">:</span> uri
+                  <span class="token key atrule">example</span><span class="token punctuation">:</span> <span class="token string">"https://client.com/callback"</span>
+      <span class="token key atrule">responses</span><span class="token punctuation">:</span>
+        <span class="token key atrule">'202'</span><span class="token punctuation">:</span>
+          <span class="token key atrule">description</span><span class="token punctuation">:</span> Задача принята в обработку</pre>
+</div>
+<p class="ds-markdown-paragraph"><strong>Как работает:</strong></p>
+<ol start="1">
+<li>
+<p class="ds-markdown-paragraph">Клиент отправляет запрос с&nbsp;<code>callbackUrl</code>.</p>
+</li>
+<li>
+<p class="ds-markdown-paragraph">Сервер отвечает&nbsp;<code>202 Accepted</code>&nbsp;и позже делает POST на&nbsp;<code>callbackUrl</code>&nbsp;с результатом.</p>
+</li>
+</ol>
+<hr />
+<h2><strong>2. Polling (Периодический опрос)</strong></h2>
+<h3><strong>Описание</strong></h3>
+<p class="ds-markdown-paragraph">Клиент делает запросы к серверу через фиксированные интервалы.</p>
+<h3><strong>Пример в OpenAPI/Swagger (YAML)</strong></h3>
+<div class="md-code-block md-code-block-dark">
+<div class="md-code-block-banner-wrap">
+<div class="md-code-block-banner md-code-block-banner-lite">
+<div class="_121d384">
+<div class="d2a24f03"><span class="d813de27">yaml</span></div>
+<div class="d2a24f03">
+<div class="efa13877">
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--m _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Copy</div>
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--s _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Download</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<pre><span class="token key atrule">paths</span><span class="token punctuation">:</span>
+  /api/status/<span class="token punctuation">{</span>taskId<span class="token punctuation">}</span><span class="token punctuation">:</span>
+    <span class="token key atrule">get</span><span class="token punctuation">:</span>
+      <span class="token key atrule">summary</span><span class="token punctuation">:</span> Проверить статус задачи
+      <span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> taskId
+          <span class="token key atrule">in</span><span class="token punctuation">:</span> path
+          <span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+          <span class="token key atrule">schema</span><span class="token punctuation">:</span>
+            <span class="token key atrule">type</span><span class="token punctuation">:</span> string
+      <span class="token key atrule">responses</span><span class="token punctuation">:</span>
+        <span class="token key atrule">'200'</span><span class="token punctuation">:</span>
+          <span class="token key atrule">description</span><span class="token punctuation">:</span> Статус задачи
+          <span class="token key atrule">content</span><span class="token punctuation">:</span>
+            <span class="token key atrule">application/json</span><span class="token punctuation">:</span>
+              <span class="token key atrule">schema</span><span class="token punctuation">:</span>
+                <span class="token key atrule">type</span><span class="token punctuation">:</span> object
+                <span class="token key atrule">properties</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">status</span><span class="token punctuation">:</span>
+                    <span class="token key atrule">type</span><span class="token punctuation">:</span> string
+                    <span class="token key atrule">enum</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>pending<span class="token punctuation">,</span> completed<span class="token punctuation">,</span> failed<span class="token punctuation">]</span></pre>
+</div>
+<p class="ds-markdown-paragraph"><strong>Как работает:</strong></p>
+<ol start="1">
+<li>
+<p class="ds-markdown-paragraph">Клиент вызывает&nbsp;<code>/api/status/123</code>&nbsp;каждые 5 секунд.</p>
+</li>
+<li>
+<p class="ds-markdown-paragraph">Сервер возвращает&nbsp;<code>{"status": "pending"}</code>&nbsp;или&nbsp;<code>{"status": "completed"}</code>.</p>
+</li>
+</ol>
+<hr />
+<h2><strong>3. Long Polling (Долгий опрос)</strong></h2>
+<h3><strong>Описание</strong></h3>
+<p class="ds-markdown-paragraph">Сервер держит соединение открытым, пока не появится результат или не истечёт таймаут.</p>
+<h3><strong>Пример в OpenAPI/Swagger (YAML)</strong></h3>
+<div class="md-code-block md-code-block-dark">
+<div class="md-code-block-banner-wrap">
+<div class="md-code-block-banner md-code-block-banner-lite">
+<div class="_121d384">
+<div class="d2a24f03"><span class="d813de27">yaml</span></div>
+<div class="d2a24f03">
+<div class="efa13877">
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--m _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Copy</div>
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--s _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Download</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<pre><span class="token key atrule">paths</span><span class="token punctuation">:</span>
+  <span class="token key atrule">/api/wait-for-update</span><span class="token punctuation">:</span>
+    <span class="token key atrule">get</span><span class="token punctuation">:</span>
+      <span class="token key atrule">summary</span><span class="token punctuation">:</span> Ожидание обновления (long polling)
+      <span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> timeout
+          <span class="token key atrule">in</span><span class="token punctuation">:</span> query
+          <span class="token key atrule">schema</span><span class="token punctuation">:</span>
+            <span class="token key atrule">type</span><span class="token punctuation">:</span> integer
+            <span class="token key atrule">default</span><span class="token punctuation">:</span> <span class="token number">30</span>
+      <span class="token key atrule">responses</span><span class="token punctuation">:</span>
+        <span class="token key atrule">'200'</span><span class="token punctuation">:</span>
+          <span class="token key atrule">description</span><span class="token punctuation">:</span> Данные получены
+          <span class="token key atrule">content</span><span class="token punctuation">:</span>
+            <span class="token key atrule">application/json</span><span class="token punctuation">:</span>
+              <span class="token key atrule">schema</span><span class="token punctuation">:</span>
+                <span class="token key atrule">type</span><span class="token punctuation">:</span> object
+                <span class="token key atrule">properties</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">update</span><span class="token punctuation">:</span>
+                    <span class="token key atrule">type</span><span class="token punctuation">:</span> string
+        <span class="token key atrule">'304'</span><span class="token punctuation">:</span>
+          <span class="token key atrule">description</span><span class="token punctuation">:</span> Нет новых данных (таймаут)</pre>
+</div>
+<p class="ds-markdown-paragraph"><strong>Как работает:</strong></p>
+<ol start="1">
+<li>
+<p class="ds-markdown-paragraph">Клиент отправляет&nbsp;<code>/api/wait-for-update?timeout=30</code>.</p>
+</li>
+<li>
+<p class="ds-markdown-paragraph">Сервер ждёт до 30 секунд и отвечает&nbsp;<code>200 OK</code>&nbsp;при новых данных или&nbsp;<code>304 Not Modified</code>&nbsp;при таймауте.</p>
+</li>
+</ol>
+<hr />
+<h2><strong>4. Webhooks (Сервер инициирует запрос)</strong></h2>
+<h3><strong>Описание</strong></h3>
+<p class="ds-markdown-paragraph">Клиент регистрирует URL, на который сервер отправляет события.</p>
+<h3><strong>Пример в OpenAPI/Swagger (YAML)</strong></h3>
+<div class="md-code-block md-code-block-dark">
+<div class="md-code-block-banner-wrap">
+<div class="md-code-block-banner md-code-block-banner-lite">
+<div class="_121d384">
+<div class="d2a24f03"><span class="d813de27">yaml</span></div>
+<div class="d2a24f03">
+<div class="efa13877">
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--m _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Copy</div>
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--s _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Download</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<pre><span class="token key atrule">paths</span><span class="token punctuation">:</span>
+  <span class="token key atrule">/webhooks</span><span class="token punctuation">:</span>
+    <span class="token key atrule">post</span><span class="token punctuation">:</span>
+      <span class="token key atrule">summary</span><span class="token punctuation">:</span> Регистрация вебхука
+      <span class="token key atrule">requestBody</span><span class="token punctuation">:</span>
+        <span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+        <span class="token key atrule">content</span><span class="token punctuation">:</span>
+          <span class="token key atrule">application/json</span><span class="token punctuation">:</span>
+            <span class="token key atrule">schema</span><span class="token punctuation">:</span>
+              <span class="token key atrule">type</span><span class="token punctuation">:</span> object
+              <span class="token key atrule">properties</span><span class="token punctuation">:</span>
+                <span class="token key atrule">url</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">type</span><span class="token punctuation">:</span> string
+                  <span class="token key atrule">format</span><span class="token punctuation">:</span> uri
+                  <span class="token key atrule">example</span><span class="token punctuation">:</span> <span class="token string">"https://client.com/webhook"</span>
+                <span class="token key atrule">events</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">type</span><span class="token punctuation">:</span> array
+                  <span class="token key atrule">items</span><span class="token punctuation">:</span>
+                    <span class="token key atrule">type</span><span class="token punctuation">:</span> string
+                    <span class="token key atrule">enum</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>order_created<span class="token punctuation">,</span> payment_received<span class="token punctuation">]</span>
+      <span class="token key atrule">responses</span><span class="token punctuation">:</span>
+        <span class="token key atrule">'201'</span><span class="token punctuation">:</span>
+          <span class="token key atrule">description</span><span class="token punctuation">:</span> Вебхук зарегистрирован</pre>
+</div>
+<p class="ds-markdown-paragraph"><strong>Как работает:</strong></p>
+<ol start="1">
+<li>
+<p class="ds-markdown-paragraph">Клиент регистрирует URL (например,&nbsp;<code>https://client.com/webhook</code>).</p>
+</li>
+<li>
+<p class="ds-markdown-paragraph">При событии (например,&nbsp;<code>order_created</code>) сервер делает POST на этот URL:</p>
+<div class="md-code-block md-code-block-dark">
+<div class="md-code-block-banner-wrap">
+<div class="md-code-block-banner md-code-block-banner-lite">
+<div class="_121d384">
+<div class="d2a24f03"><span class="d813de27">json</span></div>
+<div class="d2a24f03">
+<div class="efa13877">
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--m _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Copy</div>
+<div class="ds-button ds-button--secondary ds-button--borderless ds-button--rect ds-button--s _7db3914" tabindex="0">
+<div class="ds-button__icon">&nbsp;</div>
+Download</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<pre><span class="token punctuation">{</span>
+  <span class="token property">"event"</span><span class="token operator">:</span> <span class="token string">"order_created"</span><span class="token punctuation">,</span>
+  <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token string">"123"</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span></pre>
+</div>
+</li>
+</ol>
+<hr />
+<h2><strong>Сравнение методов</strong></h2>
+<div class="markdown-table-wrapper">
+<table>
+<thead>
+<tr>
+<th>Метод</th>
+<th>Пример запроса (YAML)</th>
+<th>Когда использовать?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Callback</strong></td>
+<td><code>callbackUrl: "https://client.com/callback"</code></td>
+<td>Долгие асинхронные операции (платежи).</td>
+</tr>
+<tr>
+<td><strong>Polling</strong></td>
+<td>GET&nbsp;<code>/api/status/{taskId}</code></td>
+<td>Простые задачи с допустимой задержкой.</td>
+</tr>
+<tr>
+<td><strong>Long Polling</strong></td>
+<td>GET&nbsp;<code>/api/wait-for-update?timeout=30</code></td>
+<td>Чат, уведомления в реальном времени.</td>
+</tr>
+<tr>
+<td><strong>Webhooks</strong></td>
+<td>POST&nbsp;<code>/webhooks</code>&nbsp;с&nbsp;<code>url</code>&nbsp;и&nbsp;<code>events</code></td>
+<td>Мгновенные события (GitHub, Stripe).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h3><strong>Когда что выбирать?</strong></h3>
+<ul>
+<li>
+<p class="ds-markdown-paragraph"><strong>Callback</strong>&nbsp;&rarr; Если сервер должен уведомить клиента&nbsp;<strong>однократно</strong>&nbsp;после операции.</p>
+</li>
+<li>
+<p class="ds-markdown-paragraph"><strong>Polling</strong>&nbsp;&rarr; Если клиент может ждать и проверять статус вручную.</p>
+</li>
+<li>
+<p class="ds-markdown-paragraph"><strong>Long Polling</strong>&nbsp;&rarr; Если нужно сократить число запросов, но WebSockets недоступны.</p>
+</li>
+<li>
+<p class="ds-markdown-paragraph"><strong>Webhooks</strong>&nbsp;&rarr; Если сервер должен мгновенно уведомлять клиента о событиях.</p>
+</li>
+</ul>  
+</details>
+
