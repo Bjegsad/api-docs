@@ -465,3 +465,125 @@ Download</div>
 </ul>  
 </details>
 
+<details>
+  <summary>WebSocket</summary>
+  <h2>Спецификация WebSocket API для Онлайн-Аукционов</h2>
+<h3>Конечные точки</h3>
+<ul>
+<li>WebSocket Endpoint:&nbsp;<code>ws://your-api-endpoint/auction</code></li>
+</ul>
+<h3>Сообщения</h3>
+<h4>Сообщения от Клиента к Серверу</h4>
+<ol>
+<li>
+<p><strong>Добавить новый предмет</strong></p>
+<ul>
+<li>Тип:&nbsp;<code>addItem</code></li>
+<li>Полезная нагрузка:
+<ul>
+<li><code>id</code>: Уникальный ID</li>
+<li><code>name</code>: Название предмета</li>
+<li><code>startingBid</code>: Начальная ставка для аукциона</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Запустить аукцион</strong></p>
+<ul>
+<li>Тип:&nbsp;<code>startAuction</code></li>
+<li>Полезная нагрузка:
+<ul>
+<li><code>id</code>: Уникальный ID предмета для аукциона</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Сделать ставку</strong></p>
+<ul>
+<li>Тип:&nbsp;<code>placeBid</code></li>
+<li>Полезная нагрузка:
+<ul>
+<li><code>id</code>: Уникальный ID предмета</li>
+<li><code>amount</code>: Сумма ставки</li>
+<li><code>userId</code>: ID пользователя, делающего ставку</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Обновить баланс</strong></p>
+<ul>
+<li>Тип:&nbsp;<code>updateBalance</code></li>
+<li>Полезная нагрузка:
+<ul>
+<li><code>userId</code>: ID пользователя</li>
+<li><code>amount</code>: Новая сумма на балансе</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4>Сообщения от Сервера к Клиенту</h4>
+<ol>
+<li>
+<p><strong>Аукцион начался</strong></p>
+<ul>
+<li>Тип:&nbsp;<code>auctionStarted</code></li>
+<li>Полезная нагрузка:
+<ul>
+<li><code>id</code>: Уникальный ID предмета</li>
+<li><code>currentBid</code>: Текущая максимальная ставка</li>
+<li><code>status</code>: "В процессе"</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Обновление ставки</strong></p>
+<ul>
+<li>Тип:&nbsp;<code>bidUpdate</code></li>
+<li>Полезная нагрузка:
+<ul>
+<li><code>id</code>: Уникальный ID предмета</li>
+<li><code>currentBid</code>: Новая максимальная ставка</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Аукцион завершился</strong></p>
+<ul>
+<li>Тип:&nbsp;<code>auctionEnded</code></li>
+<li>Полезная нагрузка:
+<ul>
+<li><code>id</code>: Уникальный ID предмета</li>
+<li><code>winnerId</code>: ID победившего пользователя</li>
+<li><code>finalBid</code>: Итоговая максимальная ставка</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3>Дополнительные возможности</h3>
+<ul>
+<li><strong>Уведомления в реальном времени</strong>: Сервер будет отправлять сообщения&nbsp;<code>bidUpdate</code>&nbsp;всем подключенным клиентам, когда будет сделана новая ставка.</li>
+</ul>
+<h3>Бонусные функции</h3>
+<ul>
+<li><strong>Автоставки</strong>: Клиенты могут отправить сообщение&nbsp;<code>setAutoBid</code>, чтобы автоматически увеличивать ставку до определенного предела.
+<ul>
+<li>Тип:&nbsp;<code>setAutoBid</code></li>
+<li>Полезная нагрузка:
+<ul>
+<li><code>id</code>: Уникальный ID предмета</li>
+<li><code>userId</code>: ID пользователя</li>
+<li><code>limit</code>: Максимальная сумма, до которой может быть сделана автоставка</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</details>
