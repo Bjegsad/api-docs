@@ -585,5 +585,53 @@ Download</div>
 </ul>
 </li>
 </ul>
+</details>
+
+<details>
+<h4>1. Топики Kafka</h4>
+<ol>
+<li><strong>Order-Confirmation</strong>: для сообщений о подтверждении заказа.</li>
+<li><strong>Order-Status-Update</strong>: для сообщений о смене статуса заказа.</li>
+<li><strong>Order-Cancellation</strong>: для сообщений об отмене заказа.</li>
+<li><strong>Customer-Notification</strong>: для уведомлений клиентам.</li>
+</ol>
+<h4>2. Формат сообщений</h4>
+<ul>
+<li><strong>Order-Confirmation</strong>:
+<ul>
+<li>Key:&nbsp;<code>order_id</code></li>
+<li>Value:&nbsp;<code>{ "customer_id": "XYZ", "products": [{"id": "A", "price": 10}, {"id": "B", "price": 20}], "status": "new" }</code></li>
+</ul>
+</li>
+<li><strong>Order-Status-Update</strong>:
+<ul>
+<li>Key:&nbsp;<code>order_id</code></li>
+<li>Value:&nbsp;<code>{ "status": "processing/shipped/cancelled" }</code></li>
+</ul>
+</li>
+<li><strong>Order-Cancellation</strong>:
+<ul>
+<li>Key:&nbsp;<code>order_id</code></li>
+<li>Value:&nbsp;<code>{ "reason": "customer request/stock unavailability" }</code></li>
+</ul>
+</li>
+<li><strong>Customer-Notification</strong>:
+<ul>
+<li>Key:&nbsp;<code>customer_id</code></li>
+<li>Value:&nbsp;<code>{ "order_id": "123", "message": "Your order is now shipped." }</code></li>
+</ul>
+</li>
+</ul>
+<h4>3. Обработка ошибок и отказоустойчивость</h4>
+<ul>
+<li><strong>Dead-letter queues</strong>: для сообщений, которые не удалось обработать.</li>
+<li><strong>Retry policies</strong>: автоматическая попытка повторной обработки в случае временной ошибки.</li>
+<li><strong>Monitoring &amp; Alerts</strong>: настроить систему мониторинга для отслеживания ошибок.</li>
+</ul>
+<h4>4. Хранение состояния</h4>
+<ul>
+<li>Хранение текущего статуса каждого заказа в базе данных для быстрого доступа.</li>
+<li>Снапшоты статуса заказа для возможности восстановления.</li>
+</ul>
 
 </details>
