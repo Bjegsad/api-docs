@@ -744,3 +744,59 @@ Download</div>
 </ul>
 
 </details>
+
+<details>
+  <summary>RabbitMQ</summary>
+  <h3>Решение задания на проектирование интеграции через RabbitMQ</h3>
+<h4>Очереди и их типы Exchange:</h4>
+<ol>
+<li><strong>task_queue</strong>&nbsp;(Direct Exchange): для хранения всех созданных задач.</li>
+<li><strong>status_update_queue</strong>&nbsp;(Topic Exchange): для хранения информации об обновлении статусов задач.</li>
+<li><strong>notification_queue</strong>&nbsp;(Fanout Exchange): для хранения уведомлений, которые нужно отправить сотрудникам.</li>
+<li><strong>priority_queue</strong>&nbsp;(Direct Exchange): для хранения задач с высоким приоритетом.</li>
+<li><strong>audit_queue</strong>&nbsp;(Direct Exchange): для логгирования всех изменений и аудита.</li>
+</ol>
+<h4>Формат сообщений:</h4>
+<ul>
+<li>
+<p><strong>Задача</strong>:</p>
+<ul>
+<li>ID (UUID)</li>
+<li>Описание (string)</li>
+<li>Статус (string: "новая", "в процессе", "завершена")</li>
+<li>Дедлайн (timestamp)</li>
+<li>Ответственный (UUID сотрудника)</li>
+</ul>
+</li>
+<li>
+<p><strong>Сотрудник</strong>:</p>
+<ul>
+<li>ID (UUID)</li>
+<li>Имя (string)</li>
+<li>Должность (string)</li>
+<li>Отдел (UUID)</li>
+</ul>
+</li>
+<li>
+<p><strong>Отдел</strong>:</p>
+<ul>
+<li>ID (UUID)</li>
+<li>Название (string)</li>
+</ul>
+</li>
+<li>
+<p><strong>Уведомление</strong>:</p>
+<ul>
+<li>ID задачи (UUID)</li>
+<li>ID сотрудника (UUID)</li>
+<li>Сообщение (string)</li>
+</ul>
+</li>
+</ul>
+<h4>План обработки ошибок:</h4>
+<ul>
+<li>Для каждой очереди должен быть Dead Letter Exchange, куда будут попадать сообщения в случае ошибок.</li>
+<li>Реализация автоматического повтора отправки сообщения после определенного времени.</li>
+<li>Логгирование всех ошибок и событий в системе для последующего анализа.</li>
+</ul>
+</details>
