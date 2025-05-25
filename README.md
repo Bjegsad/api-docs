@@ -588,6 +588,7 @@ Download</div>
 </details>
 
 <details>
+  <summary>Apache Kafka</summary>
 <h4>1. Топики Kafka</h4>
 <ol>
 <li><strong>Order-Confirmation</strong>: для сообщений о подтверждении заказа.</li>
