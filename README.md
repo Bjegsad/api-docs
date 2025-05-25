@@ -588,6 +588,114 @@ Download</div>
 </details>
 
 <details>
+  <summary>Брокеры теория</summary>
+  <p>&nbsp;</p>
+<table border="1" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td>
+<p>Параметр</p>
+</td>
+<td>
+<p>Kafka</p>
+</td>
+<td>
+<p>RabbitMQ</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Модель взаимодействия</p>
+</td>
+<td>
+<p>Log (журнал)</p>
+</td>
+<td>
+<p>Очередь/издатель-подписчик</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Модель взаимодействия брокера-консьюмера</p>
+</td>
+<td>
+<p>Pull</p>
+</td>
+<td>
+<p>Push</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Поддержка паттерна запрос-ответ</p>
+</td>
+<td>
+<p>Нет</p>
+</td>
+<td>
+<p>Да</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Паттерн масштабирования</p>
+</td>
+<td>
+<p>Кластеризация</p>
+</td>
+<td>
+<p>Кластеризация/федерация</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Возможность записи данных (персистентность)</p>
+</td>
+<td>
+<p>Да</p>
+</td>
+<td>
+<p>Да</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Рекомендованный размер сообщения</p>
+</td>
+<td>
+<p>До мегабайта</p>
+</td>
+<td>
+<p>До 100 мегабайт</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Поддержка протоколов</p>
+</td>
+<td>
+<p>Kafka Protocol/HTTP</p>
+</td>
+<td>
+<p>AMQP/STOMP/MQTT</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Пропускная способность</p>
+</td>
+<td>
+<p>Миллион и больше сообщений в секунду</p>
+</td>
+<td>
+<p>Десятки тысяч в секунду</p>
+</td>
+</tr>
+</tbody>
+</table>
+</details>
+
+<details>
   <summary>Apache Kafka</summary>
 <h4>1. Топики Kafka</h4>
 <ol>
